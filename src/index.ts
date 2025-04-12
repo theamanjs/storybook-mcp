@@ -7,6 +7,7 @@ import {
   McpError,
   ListResourcesRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
+import { zodToJsonSchema } from "zod-to-json-schema";
 import { getConfig } from './config.js';
 import { getComponents } from './storybook-api.js';
 import { listComponents } from './tools/list-components.js';
@@ -44,24 +45,24 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
     {
       name: 'list-components',
       description: 'Returns all available components',
-      inputSchema: ListComponentsParamsSchema.describe('Parameters for listing components'),
+      inputSchema: zodToJsonSchema(ListComponentsParamsSchema.describe('Parameters for listing components')),
     },
     {
       name: 'find-component-by-name',
       description: 'Search components by name/keyword',
-      inputSchema: FindComponentByNameParamsSchema.describe('Parameters for finding component by name'),
+      inputSchema: zodToJsonSchema(FindComponentByNameParamsSchema.describe('Parameters for finding component by name')),
     },
     {
       name: 'get-component-details',
       description: 'Get detailed component metadata',
-      inputSchema: GetComponentDetailsParamsSchema.describe('Parameters for getting component details'),
+      inputSchema: zodToJsonSchema(GetComponentDetailsParamsSchema.describe('Parameters for getting component details')),
     },
   ],
 }));
 
-server.setRequestHandler(ListResourcesRequestSchema, async () => {
-  throw new McpError(ErrorCode.MethodNotFound, 'Method not supported: resources/list');
-});
+// server.setRequestHandler(ListResourcesRequestSchema, async () => {
+//   throw new McpError(ErrorCode.MethodNotFound, 'Method not supported: resources/list');
+// });
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   switch (request.params.name) {
@@ -87,18 +88,18 @@ async function main() {
   }
 
   // Test the tools
-  try {
-    const listComponentsResult = await listComponents();
-    console.log('listComponentsResult:', listComponentsResult);
+  // try {
+  //   const listComponentsResult = await listComponents();
+  //   console.log('listComponentsResult:', listComponentsResult);
 
-    const findComponentByNameResult = await findComponentByName({ name: 'Button' });
-    console.log('findComponentByNameResult:', findComponentByNameResult);
+  //   const findComponentByNameResult = await findComponentByName({ name: 'Button' });
+  //   console.log('findComponentByNameResult:', findComponentByNameResult);
 
-    const getComponentDetailsResult = await getComponentDetails({ name: 'Button' });
-    console.log('getComponentDetailsResult:', getComponentDetailsResult);
-  } catch (error) {
-    console.error('Error testing tools:', error);
-  }
+  //   const getComponentDetailsResult = await getComponentDetails({ name: 'Button' });
+  //   console.log('getComponentDetailsResult:', getComponentDetailsResult);
+  // } catch (error) {
+  //   console.error('Error testing tools:', error);
+  // }
 }
 
 main().catch(console.error);
