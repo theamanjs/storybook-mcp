@@ -1,0 +1,132 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storybook-api should match snapshot for component structure 1`] = `
+[
+  {
+    "description": "",
+    "id": "components/mycomponent",
+    "name": "Components/MyComponent",
+    "props": [],
+    "stories": {
+      "Components/MyComponent": {
+        "id": "components-mycomponent--simple",
+        "importPath": "./src/components/MyComponent.stories.jsx",
+        "kind": "Components/MyComponent",
+        "name": "Simple",
+        "parameters": {
+          "__id": "components-mycomponent--simple",
+          "docsOnly": false,
+          "fileName": "./src/components/MyComponent.stories.jsx",
+        },
+        "story": "Simple",
+        "title": "Components/MyComponent",
+      },
+    },
+  },
+  {
+    "description": "",
+    "id": "components/myothercomponent",
+    "name": "Components/MyOtherComponent",
+    "props": [],
+    "stories": {
+      "Components/MyOtherComponent": {
+        "id": "components-myothercomponent--simple",
+        "importPath": "./src/components/MyOtherComponent.stories.jsx",
+        "kind": "Example/Button",
+        "name": "Simple",
+        "parameters": {
+          "__id": "components-myothercomponent--simple",
+          "docsOnly": false,
+          "fileName": "./src/components/MyOtherComponent.stories.jsx",
+        },
+        "story": "Simple",
+        "title": "Components/MyOtherComponent",
+      },
+    },
+  },
+]
+`;
+
+exports[`storybook-api should match snapshot for individual components: component-0-Components/MyComponent 1`] = `
+{
+  "description": "",
+  "id": "components/mycomponent",
+  "name": "Components/MyComponent",
+  "props": [],
+  "stories": {
+    "Components/MyComponent": {
+      "id": "components-mycomponent--simple",
+      "importPath": "./src/components/MyComponent.stories.jsx",
+      "kind": "Components/MyComponent",
+      "name": "Simple",
+      "parameters": {
+        "__id": "components-mycomponent--simple",
+        "docsOnly": false,
+        "fileName": "./src/components/MyComponent.stories.jsx",
+      },
+      "story": "Simple",
+      "title": "Components/MyComponent",
+    },
+  },
+}
+`;
+
+exports[`storybook-api should match snapshot for individual components: component-0-Components/MyComponent-props 1`] = `[]`;
+
+exports[`storybook-api should match snapshot for individual components: component-0-Components/MyComponent-story-Components/MyComponent 1`] = `
+{
+  "id": "components-mycomponent--simple",
+  "importPath": "./src/components/MyComponent.stories.jsx",
+  "kind": "Components/MyComponent",
+  "name": "Simple",
+  "parameters": {
+    "__id": "components-mycomponent--simple",
+    "docsOnly": false,
+    "fileName": "./src/components/MyComponent.stories.jsx",
+  },
+  "story": "Simple",
+  "title": "Components/MyComponent",
+}
+`;
+
+exports[`storybook-api should match snapshot for individual components: component-1-Components/MyOtherComponent 1`] = `
+{
+  "description": "",
+  "id": "components/myothercomponent",
+  "name": "Components/MyOtherComponent",
+  "props": [],
+  "stories": {
+    "Components/MyOtherComponent": {
+      "id": "components-myothercomponent--simple",
+      "importPath": "./src/components/MyOtherComponent.stories.jsx",
+      "kind": "Example/Button",
+      "name": "Simple",
+      "parameters": {
+        "__id": "components-myothercomponent--simple",
+        "docsOnly": false,
+        "fileName": "./src/components/MyOtherComponent.stories.jsx",
+      },
+      "story": "Simple",
+      "title": "Components/MyOtherComponent",
+    },
+  },
+}
+`;
+
+exports[`storybook-api should match snapshot for individual components: component-1-Components/MyOtherComponent-props 1`] = `[]`;
+
+exports[`storybook-api should match snapshot for individual components: component-1-Components/MyOtherComponent-story-Components/MyOtherComponent 1`] = `
+{
+  "id": "components-myothercomponent--simple",
+  "importPath": "./src/components/MyOtherComponent.stories.jsx",
+  "kind": "Example/Button",
+  "name": "Simple",
+  "parameters": {
+    "__id": "components-myothercomponent--simple",
+    "docsOnly": false,
+    "fileName": "./src/components/MyOtherComponent.stories.jsx",
+  },
+  "story": "Simple",
+  "title": "Components/MyOtherComponent",
+}
+`;

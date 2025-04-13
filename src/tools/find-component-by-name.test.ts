@@ -20,7 +20,7 @@ describe('find-component-by-name', () => {
   });
 
   it('should return the component when it is found', async () => {
-    const result = await findComponentByName({ name: 'button' });
+    const result = await findComponentByName({ name: 'button', storybookStaticDir: mockConfig.storybookStaticDir });
 
     expect(storybookApi.getComponents).toHaveBeenCalledWith(mockConfig.storybookStaticDir);
 
@@ -41,7 +41,7 @@ describe('find-component-by-name', () => {
   });
 
   it('should return empty array when the component is not found', async () => {
-    const result = await findComponentByName({ name: 'nonexistent' });
+    const result = await findComponentByName({ name: 'nonexistent', storybookStaticDir: mockConfig.storybookStaticDir });
 
     expect(storybookApi.getComponents).toHaveBeenCalledWith(mockConfig.storybookStaticDir);
 
@@ -62,7 +62,7 @@ describe('find-component-by-name', () => {
     spyOn(console, 'error').mockImplementation(() => {});
 
     // Expect function to throw McpError
-    await expect(findComponentByName({ name: 'button' })).rejects.toThrow(McpError);
+    await expect(findComponentByName({ name: 'button', storybookStaticDir: mockConfig.storybookStaticDir })).rejects.toThrow(McpError);
 
     // Verify console error was called
     expect(console.error).toHaveBeenCalledWith('Error finding component by name:', testError);

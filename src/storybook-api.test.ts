@@ -1,6 +1,8 @@
-import { describe, it, expect, spyOn, beforeAll, afterAll } from 'bun:test';
-import { getComponents, Component } from './storybook-api.js';
+import { afterAll, beforeAll, describe, expect, it, spyOn } from 'bun:test';
 import { mockComponents } from './mock-storybook-data.js';
+import { getComponents } from './storybook-api.js';
+
+const mockStoryPath = './src/__mocks__/stories.json';
 
 describe('storybook-api', () => {
   // Save original console.warn to restore after tests
@@ -65,5 +67,27 @@ describe('storybook-api', () => {
       expect(story).toHaveProperty('name');
       expect(story).toHaveProperty('parameters');
     }
+  });
+
+  it('should match snapshot for component structure', async () => {
+    const components = await getComponents(mockStoryPath);
+    expect(components).toMatchSnapshot();
+  });
+
+  it('should match snapshot for individual components', async () => {
+    const components = await getComponents(mockStoryPath);
+
+    // Test snapshots for each component
+    components.forEach((component, index) => {
+      expect(component).toMatchSnapshot(`component-${index}-${component.name}`);
+
+      // Test snapshots for component properties
+      expect(component.props).toMatchSnapshot(`component-${index}-${component.name}-props`);
+
+      // Test snapshots for component stories
+      for (const [storyKey, story] of Object.entries(component.stories)) {
+        expect(story).toMatchSnapshot(`component-${index}-${component.name}-story-${storyKey}`);
+      }
+    });
   });
 });

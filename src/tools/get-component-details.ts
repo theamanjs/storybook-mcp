@@ -1,7 +1,5 @@
-import { getComponents, Component } from '../storybook-api.js';
-import { getConfig } from '../config.js';
+import { getComponents, type Component } from '../storybook-api.js';
 import {
-  CallToolRequestSchema,
   ErrorCode,
   McpError,
 } from '@modelcontextprotocol/sdk/types.js';
@@ -12,13 +10,10 @@ const GetComponentDetailsParamsSchema = z.object({
 });
 
 export const getComponentDetails = async (
-  args: z.infer<typeof GetComponentDetailsParamsSchema>
+  args: z.infer<typeof GetComponentDetailsParamsSchema> & { storybookStaticDir: string }
 ) => {
-  const config = getConfig();
-  const storybookStaticDir = config.storybookStaticDir;
-
   try {
-    const components = await getComponents(storybookStaticDir);
+    const components = await getComponents(args.storybookStaticDir);
     const componentName = args.name;
     const component = components.find((c: Component) => c.name === componentName);
 

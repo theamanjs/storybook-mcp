@@ -3,19 +3,22 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import {
   CallToolRequestSchema,
   ErrorCode,
+  ListResourcesRequestSchema,
   ListToolsRequestSchema,
   McpError,
-  ListResourcesRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
+import { z } from 'zod';
 import { zodToJsonSchema } from "zod-to-json-schema";
 import { getConfig } from './config.js';
-import { getComponents } from './storybook-api.js';
-import { listComponents } from './tools/list-components.js';
 import { findComponentByName } from './tools/find-component-by-name.js';
 import { getComponentDetails } from './tools/get-component-details.js';
-import { z } from 'zod';
+import { listComponents } from './tools/list-components.js';
 
 const config = getConfig();
+
+// Get the default storybook path from command line arguments if provided
+const defaultStorybookPath = process.argv[2] || '';
+console.error(`Using default storybook path: ${defaultStorybookPath || 'Not specified'}`);
 
 const server = new Server(
   {
@@ -24,20 +27,24 @@ const server = new Server(
   },
   {
     capabilities: {
-      resources: {},
       tools: {},
     },
   }
 );
 
-const ListComponentsParamsSchema = z.object({});
+// Updated schema to make path optional since we can use the default path
+const ListComponentsParamsSchema = z.object({
+  path: z.string().optional().describe('Path to the stories.json file (optional if default path is provided)'),
+});
 
 const FindComponentByNameParamsSchema = z.object({
   name: z.string().describe('Component name or keyword to search for'),
+  path: z.string().optional().describe('Path to the stories.json file (optional if default path is provided)'),
 });
 
 const GetComponentDetailsParamsSchema = z.object({
   name: z.string().describe('Component name to get details for'),
+  path: z.string().optional().describe('Path to the stories.json file (optional if default path is provided)'),
 });
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
@@ -60,18 +67,22 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
   ],
 }));
 
-// server.setRequestHandler(ListResourcesRequestSchema, async () => {
-//   throw new McpError(ErrorCode.MethodNotFound, 'Method not supported: resources/list');
-// });
-
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
+  const args = request.params.arguments as { name?: string; path?: string } ?? { name: '', path: '' };
+  // Use provided path or fall back to the default path from command line
+  const storybookStaticDir = args.path || defaultStorybookPath;
+
+  if (!storybookStaticDir) {
+    throw new McpError(ErrorCode.InvalidParams, 'No path specified for stories.json file and no default path provided');
+  }
+
   switch (request.params.name) {
     case 'list-components':
-      return listComponents();
+      return listComponents(storybookStaticDir);
     case 'find-component-by-name':
-      return findComponentByName(request.params.arguments as { name: string } ?? { name: '' });
+      return findComponentByName({ name: args.name || '', storybookStaticDir });
     case 'get-component-details':
-      return getComponentDetails(request.params.arguments as { name: string } ?? { name: '' });
+      return getComponentDetails({ name: args.name || '', storybookStaticDir });
     default:
       throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${request.params.name}`);
   }
@@ -86,20 +97,6 @@ async function main() {
     console.error('Failed to connect to transport:', error);
     process.exit(1);
   }
-
-  // Test the tools
-  // try {
-  //   const listComponentsResult = await listComponents();
-  //   console.log('listComponentsResult:', listComponentsResult);
-
-  //   const findComponentByNameResult = await findComponentByName({ name: 'Button' });
-  //   console.log('findComponentByNameResult:', findComponentByNameResult);
-
-  //   const getComponentDetailsResult = await getComponentDetails({ name: 'Button' });
-  //   console.log('getComponentDetailsResult:', getComponentDetailsResult);
-  // } catch (error) {
-  //   console.error('Error testing tools:', error);
-  // }
 }
 
 main().catch(console.error);

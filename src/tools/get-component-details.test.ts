@@ -1,9 +1,9 @@
-import { describe, it, expect, beforeEach, spyOn } from 'bun:test';
-import { getComponentDetails } from './get-component-details.js';
+import { beforeEach, describe, expect, it, spyOn } from 'bun:test';
+import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
+import * as configModule from '../config.js';
 import * as storybookApi from '../storybook-api.js';
 import type { Component } from '../storybook-api.js';
-import * as configModule from '../config.js';
-import { McpError, ErrorCode } from '@modelcontextprotocol/sdk/types.js';
+import { getComponentDetails } from './get-component-details.js';
 
 describe('get-component-details', () => {
   const mockConfig = { storybookStaticDir: './test-storybook-static' };
@@ -12,7 +12,17 @@ describe('get-component-details', () => {
       id: 'button',
       name: 'Button',
       props: [{ name: 'color', type: 'string', defaultValue: null }, { name: 'size', type: 'string', defaultValue: null }],
-      stories: { 'default': { name: 'Default', parameters: { jsx: '<Button>Click me</Button>' } } }
+      stories: {
+        'default': {
+          name: 'Default',
+          parameters: {
+            __id: 'button-default',
+            docsOnly: false,
+            fileName: 'button.stories.js',
+            jsx: '<Button>Click me</Button>'
+          }
+        }
+      }
     },
     {
       id: 'card',
@@ -30,7 +40,7 @@ describe('get-component-details', () => {
   });
 
   it('should return the component details when the component is found', async () => {
-    const result = await getComponentDetails({ name: 'Button' });
+    const result = await getComponentDetails({ name: 'Button', storybookStaticDir: mockConfig.storybookStaticDir });
 
     expect(storybookApi.getComponents).toHaveBeenCalledWith(mockConfig.storybookStaticDir);
 
@@ -46,7 +56,7 @@ describe('get-component-details', () => {
 
   it('should throw McpError when the component is not found', async () => {
     spyOn(console, 'error').mockImplementation(() => {});
-    await expect(getComponentDetails({ name: 'NonExistent' }))
+    await expect(getComponentDetails({ name: 'NonExistent', storybookStaticDir: mockConfig.storybookStaticDir }))
       .rejects
       .toThrow(new McpError(ErrorCode.MethodNotFound, 'Component "NonExistent" not found'));
   });
@@ -57,7 +67,7 @@ describe('get-component-details', () => {
     spyOn(storybookApi, 'getComponents').mockRejectedValue(testError);
 
     // Expect function to throw McpError
-    await expect(getComponentDetails({ name: 'Button' })).rejects.toThrow(McpError);
+    await expect(getComponentDetails({ name: 'Button', storybookStaticDir: mockConfig.storybookStaticDir })).rejects.toThrow(McpError);
 
     // Verify console error was called
     expect(console.error).toHaveBeenCalledWith('Error getting component details:', testError);

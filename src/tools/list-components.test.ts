@@ -21,7 +21,7 @@ describe('list-components', () => {
     // Mock getComponents to return our test components
     spyOn(storybookApi, 'getComponents').mockResolvedValue(mockComponents);
 
-    const result = await listComponents();
+    const result = await listComponents('./storybook-static');
 
     // Check correct config was used
     expect(configModule.getConfig).toHaveBeenCalled();
@@ -45,7 +45,7 @@ describe('list-components', () => {
     spyOn(console, 'error').mockImplementation(() => {});
 
     // Expect function to throw McpError
-    await expect(listComponents()).rejects.toThrow(McpError);
+    await expect(listComponents('./storybook-static')).rejects.toThrow(McpError);
 
     // Verify console error was called
     expect(console.error).toHaveBeenCalledWith('Error listing components:', testError);
