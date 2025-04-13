@@ -1,6 +1,4 @@
 import { promises as fs } from 'node:fs';
-import path from 'node:path';
-import { getConfig } from './config.js';
 
 // Storybook json types
 // https://github.com/storybookjs/storybook/blob/next/code/core/src/types/modules/indexer.ts
@@ -63,37 +61,13 @@ export interface StorybookData {
 
 export const getComponents = async (storybookStaticDir: string): Promise<Component[]> => {
   try {
-    const config = getConfig();
+    const storiesJsonContent = await fs.readFile(storybookStaticDir, 'utf-8');
 
-    // Use the provided path or the one from config
-    let dirPath = storybookStaticDir || config.storybookStaticDir;
-
-    // Check if the path is relative, convert to absolute if needed
-    if (!path.isAbsolute(dirPath)) {
-      dirPath = path.resolve(process.cwd(), dirPath);
-      // console.log('Converted relative path to absolute:', dirPath);
-    }
-
-    // Only join 'stories.json' if it's not already included in the path
-    let storiesJsonPath = dirPath;
-    if (!dirPath.endsWith('.json')) {
-      // TODO: check if this behavior is correct
-      storiesJsonPath = path.join(dirPath, 'stories.json');
-    }
-    // console.log('storiesJsonPath:', storiesJsonPath);
-
-    const storiesJsonContent = await fs.readFile(storiesJsonPath, 'utf-8');
-
-    // console.log('storiesJsonContent:', storiesJsonContent);
     const storiesData: StorybookData = JSON.parse(storiesJsonContent);
-    // console.log('storiesData:', storiesData);
-
     const components: Component[] = [];
-
     const storyEntries = storiesData.entries || storiesData.stories;
 
     for (const storyId in storyEntries) {
-      // console.log('storyId:', storyId);
       const story = storyEntries[storyId];
 
       if (!story.title) {

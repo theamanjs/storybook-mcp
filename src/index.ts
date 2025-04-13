@@ -3,19 +3,18 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import {
   CallToolRequestSchema,
   ErrorCode,
-  ListResourcesRequestSchema,
   ListToolsRequestSchema,
   McpError,
+  ToolSchema,
 } from '@modelcontextprotocol/sdk/types.js';
 import { z } from 'zod';
 import { zodToJsonSchema } from "zod-to-json-schema";
-import { getConfig } from './config.js';
 import { findComponentByName } from './tools/find-component-by-name.js';
 import { getComponentDetails } from './tools/get-component-details.js';
-import path from 'node:path';
 import { listComponents } from './tools/list-components.js';
+import { getStorybookJsonPath } from './utils.js';
 
-const config = getConfig();
+
 
 // Get the default storybook path from command line arguments if provided
 const defaultStorybookPath = process.argv[2] || '';
@@ -32,6 +31,9 @@ const server = new Server(
     },
   }
 );
+
+const ToolInputSchema = ToolSchema.shape.inputSchema;
+type ToolInput = z.infer<typeof ToolInputSchema>;
 
 // Updated schema to make path optional since we can use the default path
 const ListComponentsParamsSchema = z.object({
@@ -53,17 +55,17 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
     {
       name: 'list-components',
       description: 'Returns all available components',
-      inputSchema: zodToJsonSchema(ListComponentsParamsSchema.describe('Parameters for listing components')),
+      inputSchema: zodToJsonSchema(ListComponentsParamsSchema.describe('Parameters for listing components')) as ToolInput,
     },
     {
       name: 'find-component-by-name',
       description: 'Search components by name/keyword',
-      inputSchema: zodToJsonSchema(FindComponentByNameParamsSchema.describe('Parameters for finding component by name')),
+      inputSchema: zodToJsonSchema(FindComponentByNameParamsSchema.describe('Parameters for finding component by name')) as ToolInput,
     },
     {
       name: 'get-component-details',
       description: 'Get detailed component metadata',
-      inputSchema: zodToJsonSchema(GetComponentDetailsParamsSchema.describe('Parameters for getting component details')),
+      inputSchema: zodToJsonSchema(GetComponentDetailsParamsSchema.describe('Parameters for getting component details')) as ToolInput,
     },
   ],
 }));
@@ -72,15 +74,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const args = request.params.arguments as { name?: string; path?: string } ?? { name: '', path: '' };
   // Use provided path or fall back to the default path from command line
 
-const storybookStaticDir = args.path || defaultStorybookPath;
+const storybookStaticDir = getStorybookJsonPath(args.path || defaultStorybookPath);
 
   if (!storybookStaticDir) {
     throw new McpError(ErrorCode.InvalidParams, 'No path specified for stories.json file and no default path provided');
   }
-
-  const absoluteStorybookStaticDir = path.isAbsolute(storybookStaticDir)
-    ? storybookStaticDir
-    : path.resolve(process.cwd(), storybookStaticDir);
 
   switch (request.params.name) {
     case 'list-components':
