@@ -15,6 +15,8 @@ describe('get-component-details', () => {
       stories: {
         'default': {
           name: 'Default',
+          title: 'Button',
+
           parameters: {
             __id: 'button-default',
             docsOnly: false,

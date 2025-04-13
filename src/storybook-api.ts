@@ -1,4 +1,6 @@
 import { promises as fs } from 'node:fs';
+import path from 'path';
+import { getAbsolutePath } from './utils.js';
 
 // Storybook json types
 // https://github.com/storybookjs/storybook/blob/next/code/core/src/types/modules/indexer.ts
@@ -27,16 +29,18 @@ export interface StorybookStory {
   kind: string;
   story: string;
   parameters: Parameters;
+  fullPath?: string;
 }
 
 export interface ComponentStory {
   name: string;
   parameters: Parameters;
   id?: string;
-  title?: string;
+  title: string;
   importPath?: string;
   kind?: string;
   story?: string;
+  fullPath?: string;
 }
 
 export interface Component {
@@ -89,6 +93,9 @@ export const getComponents = async (storybookStaticDir: string): Promise<Compone
       }
 
       if (component) {
+        const storybookStaticDirname = path.dirname(storybookStaticDir);
+        const importPath = story.importPath || '';
+        const fullPath = getAbsolutePath(path.resolve(storybookStaticDirname, '../', importPath));
         component.stories[story.title] = {
           name: story.name,
           parameters: story.parameters,
@@ -97,6 +104,7 @@ export const getComponents = async (storybookStaticDir: string): Promise<Compone
           importPath: story.importPath,
           kind: story.kind,
           story: story.story,
+          fullPath: fullPath,
         };
       }
     }
