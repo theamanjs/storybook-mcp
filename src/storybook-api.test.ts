@@ -6,23 +6,7 @@ import { getComponents } from './storybook-api.js';
 const mockStoryPath = './src/__mocks__/stories.json';
 
 describe('storybook-api', () => {
-  // Save original console.warn to restore after tests
-  const originalConsoleWarn = console.warn;
-
-  beforeAll(() => {
-    // Mock console.warn to prevent output during tests
-    console.warn = () => {};
-  });
-
-  afterAll(() => {
-    // Restore original console.warn
-    console.warn = originalConsoleWarn;
-  });
-
   it('should return mock components data', async () => {
-    // Setup a spy on console.warn
-    const warnSpy = spyOn(console, 'warn');
-
     const components = await getComponents(mockStoryPath);
 
     // Verify components are the mock components

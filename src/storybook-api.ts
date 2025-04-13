@@ -51,7 +51,12 @@ export interface Component {
 
 export interface StorybookData {
   v: number;
-  stories: {
+  // v8 ~
+  entries?: {
+    [key: string]: ComponentStory;
+  };
+  // v7
+  stories?: {
     [key: string]: ComponentStory;
   };
 }
@@ -66,26 +71,30 @@ export const getComponents = async (storybookStaticDir: string): Promise<Compone
     // Check if the path is relative, convert to absolute if needed
     if (!path.isAbsolute(dirPath)) {
       dirPath = path.resolve(process.cwd(), dirPath);
-      console.log('Converted relative path to absolute:', dirPath);
+      // console.log('Converted relative path to absolute:', dirPath);
     }
 
     // Only join 'stories.json' if it's not already included in the path
     let storiesJsonPath = dirPath;
-    if (!dirPath.endsWith('stories.json')) {
+    if (!dirPath.endsWith('.json')) {
+      // TODO: check if this behavior is correct
       storiesJsonPath = path.join(dirPath, 'stories.json');
     }
-    console.log('storiesJsonPath:', storiesJsonPath);
+    // console.log('storiesJsonPath:', storiesJsonPath);
 
     const storiesJsonContent = await fs.readFile(storiesJsonPath, 'utf-8');
-    console.log('storiesJsonContent:', storiesJsonContent);
+
+    // console.log('storiesJsonContent:', storiesJsonContent);
     const storiesData: StorybookData = JSON.parse(storiesJsonContent);
-    console.log('storiesData:', storiesData);
+    // console.log('storiesData:', storiesData);
 
     const components: Component[] = [];
 
-    for (const storyId in storiesData.stories) {
-      console.log('storyId:', storyId);
-      const story = storiesData.stories[storyId];
+    const storyEntries = storiesData.entries || storiesData.stories;
+
+    for (const storyId in storyEntries) {
+      // console.log('storyId:', storyId);
+      const story = storyEntries[storyId];
 
       if (!story.title) {
         continue; // Skip stories without a title
