@@ -51,10 +51,10 @@ const GetComponentDetailsParamsSchema = z.object({
   path: z.string().optional().describe('Path to the stories.json file (optional if default path is provided)'),
 });
 
-const GetComponentUsageExamplesParamsSchema = z.object({
-  name: z.string().describe('Component name to get usage examples for'),
-  path: z.string().optional().describe('Path to the stories.json file (optional if default path is provided)'),
-});
+// const GetComponentUsageExamplesParamsSchema = z.object({
+//   name: z.string().describe('Component name to get usage examples for'),
+//   path: z.string().optional().describe('Path to the stories.json file (optional if default path is provided)'),
+// });
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
   tools: [
@@ -73,11 +73,12 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
       description: 'Get detailed component metadata',
       inputSchema: zodToJsonSchema(GetComponentDetailsParamsSchema.describe('Parameters for getting component details')) as ToolInput,
     },
-    {
-      name: 'get-component-usage-examples',
-      description: 'Get component usage examples',
-      inputSchema: zodToJsonSchema(GetComponentUsageExamplesParamsSchema.describe('Parameters for getting component usage examples')) as ToolInput,
-    },
+    // TODO: Uncomment when implemented
+    // {
+    //   name: 'get-component-usage-examples',
+    //   description: 'Get component usage examples',
+    //   inputSchema: zodToJsonSchema(GetComponentUsageExamplesParamsSchema.describe('Parameters for getting component usage examples')) as ToolInput,
+    // },
   ],
 }));
 

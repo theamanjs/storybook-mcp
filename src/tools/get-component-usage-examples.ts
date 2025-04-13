@@ -4,6 +4,11 @@ import { McpError, ErrorCode } from '@modelcontextprotocol/sdk/types.js';
 import { getComponents, type Component, type ComponentStory } from '../storybook-api.js';
 import { searchFiles, type SearchResult } from '../utils.js';
 
+/**
+ * not yet implemented
+ * @param args
+ * @returns
+ */
 export async function getComponentUsageExamples(args: { name: string, storybookStaticDir: string }) {
   const { name: _componentName, storybookStaticDir } = args;
 
