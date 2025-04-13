@@ -1,4 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it, spyOn } from 'bun:test';
+import path from 'node:path';
 import { mockComponents } from './mock-storybook-data.js';
 import { getComponents } from './storybook-api.js';
 
@@ -22,20 +23,14 @@ describe('storybook-api', () => {
     // Setup a spy on console.warn
     const warnSpy = spyOn(console, 'warn');
 
-    const components = await getComponents('./test-storybook-static');
-
-    // Verify console.warn was called with correct parameters
-    expect(warnSpy).toHaveBeenCalledWith(
-      'Using mock Storybook data.  storybookStaticDir=',
-      './test-storybook-static'
-    );
+    const components = await getComponents(mockStoryPath);
 
     // Verify components are the mock components
     expect(components).toEqual(mockComponents);
   });
 
   it('should return components with expected structure', async () => {
-    const components = await getComponents('./any-path');
+    const components = await getComponents(mockStoryPath);
 
     // Check that we got an array
     expect(Array.isArray(components)).toBe(true);
@@ -89,5 +84,24 @@ describe('storybook-api', () => {
         expect(story).toMatchSnapshot(`component-${index}-${component.name}-story-${storyKey}`);
       }
     });
+  });
+
+  it('should correctly resolve an absolute path', async () => {
+    const absolutePath = path.resolve('./src/__mocks__');
+    const components = await getComponents(absolutePath);
+    expect(components).toBeDefined();
+    expect(components.length).toBeGreaterThan(0);
+  });
+
+  it('should correctly resolve a relative path', async () => {
+    const components = await getComponents('./src/__mocks__');
+    expect(components).toBeDefined();
+    expect(components.length).toBeGreaterThan(0);
+  });
+
+  it('should correctly handle a path that already includes stories.json', async () => {
+    const components = await getComponents('./src/__mocks__/stories.json');
+    expect(components).toBeDefined();
+    expect(components.length).toBeGreaterThan(0);
   });
 });

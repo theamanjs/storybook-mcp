@@ -1,62 +1,44 @@
-import { Component } from './storybook-api.js';
+import type { Component } from './storybook-api.js';
 
 export const mockComponents: Component[] = [
   {
-    id: 'Button',
-    name: 'Button',
-    description: 'A simple button component',
-    props: [
-      {
-        name: 'label',
-        type: 'string',
-        defaultValue: 'Button',
-        description: 'The text to display on the button',
-      },
-      {
-        name: 'onClick',
-        type: 'function',
-        defaultValue: null,
-        description: 'The function to call when the button is clicked',
-      },
-    ],
+    id: 'components/mycomponent',
+    name: 'Components/MyComponent',
+    description: '',
+    props: [],
     stories: {
-      primary: {
-        name: 'Primary',
+      'Components/MyComponent': {
+        id: 'components-mycomponent--simple',
+        title: 'Components/MyComponent',
+        name: 'Simple',
+        importPath: './src/components/MyComponent.stories.jsx',
+        kind: 'Components/MyComponent',
+        story: 'Simple',
         parameters: {
-          label: 'Primary Button',
-        },
-      },
-      secondary: {
-        name: 'Secondary',
-        parameters: {
-          label: 'Secondary Button',
+          __id: 'components-mycomponent--simple',
+          docsOnly: false,
+          fileName: './src/components/MyComponent.stories.jsx',
         },
       },
     },
   },
   {
-    id: 'Input',
-    name: 'Input',
-    description: 'A simple input component',
-    props: [
-      {
-        name: 'value',
-        type: 'string',
-        defaultValue: '',
-        description: 'The value of the input',
-      },
-      {
-        name: 'onChange',
-        type: 'function',
-        defaultValue: null,
-        description: 'The function to call when the input changes',
-      },
-    ],
+    id: 'components/myothercomponent',
+    name: 'Components/MyOtherComponent',
+    description: '',
+    props: [],
     stories: {
-      default: {
-        name: 'Default',
+      'Components/MyOtherComponent': {
+        id: 'components-myothercomponent--simple',
+        title: 'Components/MyOtherComponent',
+        name: 'Simple',
+        importPath: './src/components/MyOtherComponent.stories.jsx',
+        kind: 'Example/Button',
+        story: 'Simple',
         parameters: {
-          value: 'Initial Value',
+          __id: 'components-myothercomponent--simple',
+          docsOnly: false,
+          fileName: './src/components/MyOtherComponent.stories.jsx',
         },
       },
     },

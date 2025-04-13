@@ -12,6 +12,7 @@ import { zodToJsonSchema } from "zod-to-json-schema";
 import { getConfig } from './config.js';
 import { findComponentByName } from './tools/find-component-by-name.js';
 import { getComponentDetails } from './tools/get-component-details.js';
+import path from 'node:path';
 import { listComponents } from './tools/list-components.js';
 
 const config = getConfig();
@@ -70,11 +71,16 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const args = request.params.arguments as { name?: string; path?: string } ?? { name: '', path: '' };
   // Use provided path or fall back to the default path from command line
-  const storybookStaticDir = args.path || defaultStorybookPath;
+
+const storybookStaticDir = args.path || defaultStorybookPath;
 
   if (!storybookStaticDir) {
     throw new McpError(ErrorCode.InvalidParams, 'No path specified for stories.json file and no default path provided');
   }
+
+  const absoluteStorybookStaticDir = path.isAbsolute(storybookStaticDir)
+    ? storybookStaticDir
+    : path.resolve(process.cwd(), storybookStaticDir);
 
   switch (request.params.name) {
     case 'list-components':
