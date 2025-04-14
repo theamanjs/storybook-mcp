@@ -137,3 +137,5 @@ dist
 
 build
 *storybook.log
+
+memory-bank/
