@@ -13,10 +13,6 @@ import { findComponentByName } from './tools/find-component-by-name.js';
 import { getComponentDetails } from './tools/get-component-details.js';
 import { listComponents } from './tools/list-components.js';
 import { getStorybookJsonPath } from './utils.js';
-import { getComponentUsageExamples } from './tools/get-component-usage-examples.js';
-import { getComponentVariants } from './tools/get-component-variants.js';
-
-
 
 // Get the default storybook path from command line arguments if provided
 const defaultStorybookPath = process.argv[2] || '';
@@ -52,13 +48,6 @@ const GetComponentDetailsParamsSchema = z.object({
   path: z.string().optional().describe('Path to the stories.json file (optional if default path is provided)'),
 });
 
-// const GetComponentUsageExamplesParamsSchema = z.object({
-//   name: z.string().describe('Component name to get usage examples for'),
-const GetComponentVariantsParamsSchema = z.object({
-  name: z.string().describe('Component name to get variants for'),
-  path: z.string().optional().describe('Path to the stories.json file (optional if default path is provided)'),
-});
-
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
   tools: [
     {
@@ -76,16 +65,6 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
       description: 'Get detailed component metadata',
       inputSchema: zodToJsonSchema(GetComponentDetailsParamsSchema.describe('Parameters for getting component details')) as ToolInput,
     },
-    // {
-    //   name: 'get-component-usage-examples',
-    //   description: 'Get component usage examples',
-    //   // inputSchema: zodToJsonSchema(GetComponentUsageExamplesParamsSchema.describe('Parameters for getting component usage examples')) as ToolInput,
-    // },
-    // {
-    //   name: 'get-component-variants',
-    //   description: 'Get component variants',
-    //   inputSchema: zodToJsonSchema(GetComponentVariantsParamsSchema.describe('Parameters for getting component variants')) as ToolInput,
-    // },
   ],
 }))
 
@@ -106,10 +85,6 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return findComponentByName({ name: args.name || '', storybookStaticDir });
       case 'get-component-details':
         return getComponentDetails({ name: args.name || '', storybookStaticDir });
-      // case 'get-component-usage-examples':
-      //   return getComponentUsageExamples({ name: args.name || '', storybookStaticDir });
-      // case 'get-component-variants':
-      //   return getComponentVariants({ name: args.name || '', storybookStaticDir });
       default:
         throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${request.params.name}`);
     }
