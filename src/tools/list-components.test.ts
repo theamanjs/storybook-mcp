@@ -8,8 +8,8 @@ import { McpError } from '@modelcontextprotocol/sdk/types.js';
 describe('list-components', () => {
   const mockConfig = { storybookStaticDir: './test-storybook-static' };
   const mockComponents: Component[] = [
-    { id: 'Component-1', name: 'Component 1', props: [], stories: {} },
-    { id: 'Component-2', name: 'Component 2', props: [], stories: {} }
+    { id: 'Component-1', name: 'Component 1', props: [], variants: {} },
+    { id: 'Component-2', name: 'Component 2', props: [], variants: {} }
   ];
 
   beforeEach(() => {

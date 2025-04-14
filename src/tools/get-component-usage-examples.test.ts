@@ -24,7 +24,7 @@ describe('get-component-usage-examples', () => {
       importPath: './Button.stories.ts',
       kind: 'Example/Button',
       story: 'Primary',
-      fullPath: path.join(fixturesDir, 'Button.stories.ts')
+      storyFileFullPath: path.join(fixturesDir, 'Button.stories.ts')
     },
     'Secondary': {
       name: 'Secondary',
@@ -38,7 +38,7 @@ describe('get-component-usage-examples', () => {
       importPath: './Button.stories.ts',
       kind: 'Example/Button',
       story: 'Secondary',
-      fullPath: path.join(fixturesDir, 'Button.stories.ts')
+      storyFileFullPath: path.join(fixturesDir, 'Button.stories.ts')
     }
   };
 
@@ -55,7 +55,7 @@ describe('get-component-usage-examples', () => {
       importPath: './Header.stories.ts',
       kind: 'Example/Header',
       story: 'LoggedIn',
-      fullPath: path.join(fixturesDir, 'Header.stories.ts')
+      storyFileFullPath: path.join(fixturesDir, 'Header.stories.ts')
     },
     'LoggedOut': {
       name: 'LoggedOut',
@@ -69,7 +69,7 @@ describe('get-component-usage-examples', () => {
       importPath: './Header.stories.ts',
       kind: 'Example/Header',
       story: 'LoggedOut',
-      fullPath: path.join(fixturesDir, 'Header.stories.ts')
+      storyFileFullPath: path.join(fixturesDir, 'Header.stories.ts')
     }
   };
 
@@ -82,7 +82,7 @@ describe('get-component-usage-examples', () => {
         { name: 'primary', type: 'boolean', defaultValue: false, description: 'Is this the principal call to action?' },
         { name: 'label', type: 'string', defaultValue: '', description: 'Button contents' }
       ],
-      stories: mockStories
+      variants: mockStories
     },
     {
       id: 'header',
@@ -94,14 +94,14 @@ describe('get-component-usage-examples', () => {
         { name: 'onCreateAccount', type: 'function', defaultValue: undefined, description: 'Callback for sign up button click' },
         { name: 'user', type: 'object', defaultValue: undefined, description: 'User info if logged in' }
       ],
-      stories: headerStories
+      variants: headerStories
     },
     {
       id: 'component-2',
       name: 'Component 2',
       description: '',
       props: [],
-      stories: {}
+      variants: {}
     }
   ];
 
@@ -193,7 +193,7 @@ describe('get-component-usage-examples', () => {
         name: 'Button',
         description: 'A standard button component',
         props: [],
-        stories: {}
+        variants: {}
       }
     ]);
 
@@ -226,7 +226,7 @@ describe('get-component-usage-examples', () => {
         name: 'Button',
         description: '',
         props: [],
-        stories: {}
+        variants: {}
       }
     ]);
 

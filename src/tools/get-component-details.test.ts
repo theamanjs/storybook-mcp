@@ -12,7 +12,7 @@ describe('get-component-details', () => {
       id: 'button',
       name: 'Button',
       props: [{ name: 'color', type: 'string', defaultValue: null }, { name: 'size', type: 'string', defaultValue: null }],
-      stories: {
+      variants: {
         'default': {
           name: 'Default',
           title: 'Button',
@@ -30,7 +30,7 @@ describe('get-component-details', () => {
       id: 'card',
       name: 'Card',
       props: [{ name: 'title', type: 'string', defaultValue: null }],
-      stories: { }
+      variants: { }
     }
   ];
 

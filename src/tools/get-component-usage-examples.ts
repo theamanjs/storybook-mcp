@@ -28,7 +28,7 @@ export async function getComponentUsageExamples(args: { name: string, storybookS
 
   // Extract story file examples
   let storyExamples = '';
-  if (component.stories) {
+  if (component.variants) {
     storyExamples = await extractStoryExamples(component);
   }
 
@@ -64,13 +64,13 @@ export async function getComponentUsageExamples(args: { name: string, storybookS
 async function extractStoryExamples(component: Component): Promise<string> {
   let examples = '';
 
-  for (const storyKey in component.stories) {
-    const story = component.stories[storyKey];
+  for (const storyKey in component.variants) {
+    const story = component.variants[storyKey];
 
-    if (story.fullPath) {
+    if (story.storyFileFullPath) {
       try {
         // Read the story file content
-        const fileContent = await fs.readFile(story.fullPath, 'utf-8');
+        const fileContent = await fs.readFile(story.storyFileFullPath, 'utf-8');
 
         // Extract variants and their props
         const variants = extractVariants(fileContent, story);
@@ -78,7 +78,7 @@ async function extractStoryExamples(component: Component): Promise<string> {
           examples += `### Variant: ${story.name}\n${variants}\n\n`;
         }
       } catch (error) {
-        console.error(`Error reading story file ${story.fullPath}:`, error);
+        console.error(`Error reading story file ${story.storyFileFullPath}:`, error);
       }
     }
   }

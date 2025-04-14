@@ -38,9 +38,11 @@ export interface ComponentStory {
   id?: string;
   title: string;
   importPath?: string;
+  componentPath?: string;
   kind?: string;
   story?: string;
-  fullPath?: string;
+  storyFileFullPath?: string;
+  componentFullPath?: string;
 }
 
 export interface Component {
@@ -48,7 +50,7 @@ export interface Component {
   name: string;
   description?: string;
   props: ComponentProp[];
-  stories: Record<string, ComponentStory>;
+  variants: Record<string, ComponentStory>;
 }
 
 export interface StorybookData {
@@ -74,37 +76,46 @@ export const getComponents = async (storybookStaticDir: string): Promise<Compone
     for (const storyId in storyEntries) {
       const story = storyEntries[storyId];
 
-      if (!story.title) {
+      if (!story.id) {
         continue; // Skip stories without a title
       }
+
+      // example-button--primary => example-button
+      const componentId = story.id.split('--')[0];
+      const componentName = componentId
+        .replace(/-/g, '/')
+        .replace(/(^|\/)(\w)/g, (_, separator, char) => `${separator}${char.toUpperCase()}`);
 
       // Check if the story already exists in the components array
       let component = components.find(c => c.name === story.title);
 
       if (!component) {
         component = {
-          id: story.title.toLowerCase().replace(/ /g, '-'),
-          name: story.title,
+          id: componentId,
+          name: componentName,
           description: '',
           props: [],
-          stories: {},
+          variants: {},
         };
         components.push(component);
       }
 
       if (component) {
         const storybookStaticDirname = path.dirname(storybookStaticDir);
-        const importPath = story.importPath || '';
-        const fullPath = getAbsolutePath(path.resolve(storybookStaticDirname, '../', importPath));
-        component.stories[story.title] = {
+        const storyFileFullPath = getAbsolutePath(path.resolve(storybookStaticDirname, '../', story.importPath || ''));
+        const componentFullPath = getAbsolutePath(path.resolve(storybookStaticDirname, '../', story.componentPath || ''));
+
+        component.variants[story.id] = {
           name: story.name,
           parameters: story.parameters,
           id: story.id,
           title: story.title,
           importPath: story.importPath,
+          componentPath: story.componentPath,
           kind: story.kind,
           story: story.story,
-          fullPath: fullPath,
+          storyFileFullPath,
+          componentFullPath,
         };
       }
     }

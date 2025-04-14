@@ -7,9 +7,9 @@ import { McpError } from '@modelcontextprotocol/sdk/types.js';
 describe('find-component-by-name', () => {
   const mockConfig = { storybookStaticDir: './test-storybook-static' };
   const mockComponents = [
-    { id: 'button', name: 'Button', props: [], stories: {} },
-    { id: 'text-button', name: 'TextButton', props: [], stories: {} },
-    { id: 'card', name: 'Card', props: [], stories: {} }
+    { id: 'button', name: 'Button', props: [], variants: {} },
+    { id: 'text-button', name: 'TextButton', props: [], variants: {} },
+    { id: 'card', name: 'Card', props: [], variants: {} }
   ];
 
   beforeEach(() => {

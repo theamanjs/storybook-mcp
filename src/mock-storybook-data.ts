@@ -6,7 +6,7 @@ export const mockComponents: Component[] = [
     name: 'Components/MyComponent',
     description: '',
     props: [],
-    stories: {
+    variants: {
       'Components/MyComponent': {
         id: 'components-mycomponent--simple',
         title: 'Components/MyComponent',
@@ -27,7 +27,7 @@ export const mockComponents: Component[] = [
     name: 'Components/MyOtherComponent',
     description: '',
     props: [],
-    stories: {
+    variants: {
       'Components/MyOtherComponent': {
         id: 'components-myothercomponent--simple',
         title: 'Components/MyOtherComponent',

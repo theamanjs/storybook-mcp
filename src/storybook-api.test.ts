@@ -38,10 +38,10 @@ describe('storybook-api', () => {
     }
 
     // Check stories object structure
-    expect(typeof component.stories).toBe('object');
-    if (Object.keys(component.stories).length > 0) {
-      const storyKey = Object.keys(component.stories)[0];
-      const story = component.stories[storyKey];
+    expect(typeof component.variants).toBe('object');
+    if (Object.keys(component.variants).length > 0) {
+      const storyKey = Object.keys(component.variants)[0];
+      const story = component.variants[storyKey];
       expect(story).toHaveProperty('name');
       expect(story).toHaveProperty('parameters');
     }
@@ -63,7 +63,7 @@ describe('storybook-api', () => {
       expect(component.props).toMatchSnapshot(`component-${index}-${component.name}-props`);
 
       // Test snapshots for component stories
-      for (const [storyKey, story] of Object.entries(component.stories)) {
+      for (const [storyKey, story] of Object.entries(component.variants)) {
         expect(story).toMatchSnapshot(`component-${index}-${component.name}-story-${storyKey}`);
       }
     });
