@@ -98,7 +98,6 @@ async function main() {
   const transport = new StdioServerTransport();
   try {
     await server.connect(transport);
-    console.error('Storybook MCP server running on stdio');
   } catch (error) {
     console.error('Failed to connect to transport:', error);
     process.exit(1);
