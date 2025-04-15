@@ -1,0 +1,44 @@
+{
+  "v": 7,
+  "entries": {
+    "button--primary": {
+      "id": "button--primary",
+      "name": "Primary",
+      "title": "Button",
+      "importPath": "./src/components/Button.stories.tsx",
+      "kind": "Example/Button",
+      "story": "Primary",
+      "parameters": {
+        "__id": "button--primary",
+        "docsOnly": false,
+        "fileName": "./src/components/Button.stories.tsx"
+      }
+    },
+    "textbutton--default": {
+      "id": "textbutton--default",
+      "name": "Default",
+      "title": "TextButton",
+      "importPath": "./src/components/TextButton.stories.tsx",
+      "kind": "Example/TextButton",
+      "story": "Default",
+      "parameters": {
+        "__id": "textbutton--default",
+        "docsOnly": false,
+        "fileName": "./src/components/TextButton.stories.tsx"
+      }
+    },
+    "card--default": {
+      "id": "card--default",
+      "name": "Default",
+      "title": "Card",
+      "importPath": "./src/components/Card.stories.tsx",
+      "kind": "Example/Card",
+      "story": "Default",
+      "parameters": {
+        "__id": "card--default",
+        "docsOnly": false,
+        "fileName": "./src/components/Card.stories.tsx"
+      }
+    }
+  }
+}
