@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, it, spyOn } from 'bun:test';
 import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
-import * as configModule from '../config.js';
-import * as storybookApi from '../storybook-api.js';
+import * as storybookApi from '../storybook-api.js'
 import type { Component } from '../storybook-api.js';
 import { getComponentDetails } from './get-component-details.js';
 
@@ -35,8 +34,6 @@ describe('get-component-details', () => {
   ];
 
   beforeEach(() => {
-    // Mock getConfig to return our test config
-    spyOn(configModule, 'getConfig').mockReturnValue(mockConfig);
     // Mock getComponents to return our test components
     spyOn(storybookApi, 'getComponents').mockResolvedValue(mockComponents);
   });

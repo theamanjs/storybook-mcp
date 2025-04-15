@@ -10,7 +10,7 @@ import {
 import { z } from 'zod';
 import { zodToJsonSchema } from "zod-to-json-schema";
 import { findComponentsByName } from './tools/find-components-by-name.js';
-import { getComponentDetails } from './tools/get-component-details.js';
+// import { getComponentDetails } from './tools/get-component-details.js';
 import { listComponents } from './tools/list-components.js';
 import { getStorybookJsonPath } from './utils.js';
 
@@ -35,18 +35,18 @@ type ToolInput = z.infer<typeof ToolInputSchema>;
 
 // Updated schema to make path optional since we can use the default path
 const ListComponentsParamsSchema = z.object({
-  path: z.string().optional().describe('Path to the stories.json file (optional if default path is provided)'),
+  path: z.string().optional().describe('Path to the index.json or stories.json file (optional if default path is provided)'),
 });
 
 const findComponentsByNameParamsSchema = z.object({
   name: z.string().describe('Component name or keyword to search for'),
-  path: z.string().optional().describe('Path to the stories.json file (optional if default path is provided)'),
+  path: z.string().optional().describe('Path to the index.json or stories.json file (optional if default path is provided)'),
 });
 
-const GetComponentDetailsParamsSchema = z.object({
-  name: z.string().describe('Component name to get details for'),
-  path: z.string().optional().describe('Path to the stories.json file (optional if default path is provided)'),
-});
+// const GetComponentDetailsParamsSchema = z.object({
+//   name: z.string().describe('Component name to get details for'),
+//   path: z.string().optional().describe('Path to the stories.json file (optional if default path is provided)'),
+// });
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
   tools: [
@@ -60,11 +60,11 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
       description: 'Search components by name/keyword',
       inputSchema: zodToJsonSchema(findComponentsByNameParamsSchema.describe('Parameters for finding component by name')) as ToolInput,
     },
-    {
-      name: 'get-component-details',
-      description: 'Get detailed component metadata',
-      inputSchema: zodToJsonSchema(GetComponentDetailsParamsSchema.describe('Parameters for getting component details')) as ToolInput,
-    },
+    // {
+    //   name: 'get-component-details',
+    //   description: 'Get detailed component metadata',
+    //   inputSchema: zodToJsonSchema(GetComponentDetailsParamsSchema.describe('Parameters for getting component details')) as ToolInput,
+    // },
   ],
 }))
 
@@ -83,8 +83,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return listComponents(storybookStaticDir);
       case 'find-components-by-name':
         return findComponentsByName({ name: args.name || '', storybookStaticDir });
-      case 'get-component-details':
-        return getComponentDetails({ name: args.name || '', storybookStaticDir });
+      // case 'get-component-details':
+      //   return getComponentDetails({ name: args.name || '', storybookStaticDir });
       default:
         throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${request.params.name}`);
     }
