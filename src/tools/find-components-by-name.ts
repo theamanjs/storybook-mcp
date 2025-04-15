@@ -9,7 +9,7 @@ const FindComponentByNameParamsSchema = z.object({
   name: z.string().describe('Component name or keyword to search for'),
 });
 
-export const findComponentByName = async (
+export const findComponentsByName = async (
   args: z.infer<typeof FindComponentByNameParamsSchema> & { storybookStaticDir: string }
 ) => {
   try {
