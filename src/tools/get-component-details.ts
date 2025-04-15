@@ -9,6 +9,7 @@ const GetComponentDetailsParamsSchema = z.object({
   name: z.string().describe('Component name to get details for'),
 });
 
+// TODO: not implemented yet
 export const getComponentDetails = async (
   args: z.infer<typeof GetComponentDetailsParamsSchema> & { storybookStaticDir: string }
 ) => {

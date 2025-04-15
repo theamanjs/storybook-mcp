@@ -1,14 +1,16 @@
 // Bun Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storybook-api should match snapshot for component structure 1`] = `
+exports[`storybook-api should return mock components data 1`] = `
 [
   {
     "description": "",
-    "id": "components/mycomponent",
-    "name": "Components/MyComponent",
+    "id": "components-mycomponent",
+    "name": "Components/Mycomponent",
     "props": [],
-    "stories": {
-      "Components/MyComponent": {
+    "variants": {
+      "components-mycomponent--simple": {
+        "componentFullPath": "/Users/matsumotoyoshio/Works/mcps/storybook-mcp/src",
+        "componentPath": undefined,
         "id": "components-mycomponent--simple",
         "importPath": "./src/components/MyComponent.stories.jsx",
         "kind": "Components/MyComponent",
@@ -19,17 +21,20 @@ exports[`storybook-api should match snapshot for component structure 1`] = `
           "fileName": "./src/components/MyComponent.stories.jsx",
         },
         "story": "Simple",
+        "storyFileFullPath": "/Users/matsumotoyoshio/Works/mcps/storybook-mcp/src/src/components/MyComponent.stories.jsx",
         "title": "Components/MyComponent",
       },
     },
   },
   {
     "description": "",
-    "id": "components/myothercomponent",
-    "name": "Components/MyOtherComponent",
+    "id": "components-myothercomponent",
+    "name": "Components/Myothercomponent",
     "props": [],
-    "stories": {
-      "Components/MyOtherComponent": {
+    "variants": {
+      "components-myothercomponent--simple": {
+        "componentFullPath": "/Users/matsumotoyoshio/Works/mcps/storybook-mcp/src",
+        "componentPath": undefined,
         "id": "components-myothercomponent--simple",
         "importPath": "./src/components/MyOtherComponent.stories.jsx",
         "kind": "Example/Button",
@@ -40,6 +45,7 @@ exports[`storybook-api should match snapshot for component structure 1`] = `
           "fileName": "./src/components/MyOtherComponent.stories.jsx",
         },
         "story": "Simple",
+        "storyFileFullPath": "/Users/matsumotoyoshio/Works/mcps/storybook-mcp/src/src/components/MyOtherComponent.stories.jsx",
         "title": "Components/MyOtherComponent",
       },
     },
@@ -47,14 +53,69 @@ exports[`storybook-api should match snapshot for component structure 1`] = `
 ]
 `;
 
-exports[`storybook-api should match snapshot for individual components: component-0-Components/MyComponent 1`] = `
+exports[`storybook-api should match snapshot for component structure 1`] = `
+[
+  {
+    "description": "",
+    "id": "components-mycomponent",
+    "name": "Components/Mycomponent",
+    "props": [],
+    "variants": {
+      "components-mycomponent--simple": {
+        "componentFullPath": "/Users/matsumotoyoshio/Works/mcps/storybook-mcp/src",
+        "componentPath": undefined,
+        "id": "components-mycomponent--simple",
+        "importPath": "./src/components/MyComponent.stories.jsx",
+        "kind": "Components/MyComponent",
+        "name": "Simple",
+        "parameters": {
+          "__id": "components-mycomponent--simple",
+          "docsOnly": false,
+          "fileName": "./src/components/MyComponent.stories.jsx",
+        },
+        "story": "Simple",
+        "storyFileFullPath": "/Users/matsumotoyoshio/Works/mcps/storybook-mcp/src/src/components/MyComponent.stories.jsx",
+        "title": "Components/MyComponent",
+      },
+    },
+  },
+  {
+    "description": "",
+    "id": "components-myothercomponent",
+    "name": "Components/Myothercomponent",
+    "props": [],
+    "variants": {
+      "components-myothercomponent--simple": {
+        "componentFullPath": "/Users/matsumotoyoshio/Works/mcps/storybook-mcp/src",
+        "componentPath": undefined,
+        "id": "components-myothercomponent--simple",
+        "importPath": "./src/components/MyOtherComponent.stories.jsx",
+        "kind": "Example/Button",
+        "name": "Simple",
+        "parameters": {
+          "__id": "components-myothercomponent--simple",
+          "docsOnly": false,
+          "fileName": "./src/components/MyOtherComponent.stories.jsx",
+        },
+        "story": "Simple",
+        "storyFileFullPath": "/Users/matsumotoyoshio/Works/mcps/storybook-mcp/src/src/components/MyOtherComponent.stories.jsx",
+        "title": "Components/MyOtherComponent",
+      },
+    },
+  },
+]
+`;
+
+exports[`storybook-api should match snapshot for individual components: component-0-Components/Mycomponent 1`] = `
 {
   "description": "",
-  "id": "components/mycomponent",
-  "name": "Components/MyComponent",
+  "id": "components-mycomponent",
+  "name": "Components/Mycomponent",
   "props": [],
-  "stories": {
-    "Components/MyComponent": {
+  "variants": {
+    "components-mycomponent--simple": {
+      "componentFullPath": "/Users/matsumotoyoshio/Works/mcps/storybook-mcp/src",
+      "componentPath": undefined,
       "id": "components-mycomponent--simple",
       "importPath": "./src/components/MyComponent.stories.jsx",
       "kind": "Components/MyComponent",
@@ -65,16 +126,19 @@ exports[`storybook-api should match snapshot for individual components: componen
         "fileName": "./src/components/MyComponent.stories.jsx",
       },
       "story": "Simple",
+      "storyFileFullPath": "/Users/matsumotoyoshio/Works/mcps/storybook-mcp/src/src/components/MyComponent.stories.jsx",
       "title": "Components/MyComponent",
     },
   },
 }
 `;
 
-exports[`storybook-api should match snapshot for individual components: component-0-Components/MyComponent-props 1`] = `[]`;
+exports[`storybook-api should match snapshot for individual components: component-0-Components/Mycomponent-props 1`] = `[]`;
 
-exports[`storybook-api should match snapshot for individual components: component-0-Components/MyComponent-story-Components/MyComponent 1`] = `
+exports[`storybook-api should match snapshot for individual components: component-0-Components/Mycomponent-story-components-mycomponent--simple 1`] = `
 {
+  "componentFullPath": "/Users/matsumotoyoshio/Works/mcps/storybook-mcp/src",
+  "componentPath": undefined,
   "id": "components-mycomponent--simple",
   "importPath": "./src/components/MyComponent.stories.jsx",
   "kind": "Components/MyComponent",
@@ -85,18 +149,21 @@ exports[`storybook-api should match snapshot for individual components: componen
     "fileName": "./src/components/MyComponent.stories.jsx",
   },
   "story": "Simple",
+  "storyFileFullPath": "/Users/matsumotoyoshio/Works/mcps/storybook-mcp/src/src/components/MyComponent.stories.jsx",
   "title": "Components/MyComponent",
 }
 `;
 
-exports[`storybook-api should match snapshot for individual components: component-1-Components/MyOtherComponent 1`] = `
+exports[`storybook-api should match snapshot for individual components: component-1-Components/Myothercomponent 1`] = `
 {
   "description": "",
-  "id": "components/myothercomponent",
-  "name": "Components/MyOtherComponent",
+  "id": "components-myothercomponent",
+  "name": "Components/Myothercomponent",
   "props": [],
-  "stories": {
-    "Components/MyOtherComponent": {
+  "variants": {
+    "components-myothercomponent--simple": {
+      "componentFullPath": "/Users/matsumotoyoshio/Works/mcps/storybook-mcp/src",
+      "componentPath": undefined,
       "id": "components-myothercomponent--simple",
       "importPath": "./src/components/MyOtherComponent.stories.jsx",
       "kind": "Example/Button",
@@ -107,16 +174,19 @@ exports[`storybook-api should match snapshot for individual components: componen
         "fileName": "./src/components/MyOtherComponent.stories.jsx",
       },
       "story": "Simple",
+      "storyFileFullPath": "/Users/matsumotoyoshio/Works/mcps/storybook-mcp/src/src/components/MyOtherComponent.stories.jsx",
       "title": "Components/MyOtherComponent",
     },
   },
 }
 `;
 
-exports[`storybook-api should match snapshot for individual components: component-1-Components/MyOtherComponent-props 1`] = `[]`;
+exports[`storybook-api should match snapshot for individual components: component-1-Components/Myothercomponent-props 1`] = `[]`;
 
-exports[`storybook-api should match snapshot for individual components: component-1-Components/MyOtherComponent-story-Components/MyOtherComponent 1`] = `
+exports[`storybook-api should match snapshot for individual components: component-1-Components/Myothercomponent-story-components-myothercomponent--simple 1`] = `
 {
+  "componentFullPath": "/Users/matsumotoyoshio/Works/mcps/storybook-mcp/src",
+  "componentPath": undefined,
   "id": "components-myothercomponent--simple",
   "importPath": "./src/components/MyOtherComponent.stories.jsx",
   "kind": "Example/Button",
@@ -127,6 +197,45 @@ exports[`storybook-api should match snapshot for individual components: componen
     "fileName": "./src/components/MyOtherComponent.stories.jsx",
   },
   "story": "Simple",
+  "storyFileFullPath": "/Users/matsumotoyoshio/Works/mcps/storybook-mcp/src/src/components/MyOtherComponent.stories.jsx",
+  "title": "Components/MyOtherComponent",
+}
+`;
+
+exports[`storybook-api should match snapshot for component variants: component-0-Components/Mycomponent-variant-components-mycomponent--simple 1`] = `
+{
+  "componentFullPath": "/Users/matsumotoyoshio/Works/mcps/storybook-mcp/src",
+  "componentPath": undefined,
+  "id": "components-mycomponent--simple",
+  "importPath": "./src/components/MyComponent.stories.jsx",
+  "kind": "Components/MyComponent",
+  "name": "Simple",
+  "parameters": {
+    "__id": "components-mycomponent--simple",
+    "docsOnly": false,
+    "fileName": "./src/components/MyComponent.stories.jsx",
+  },
+  "story": "Simple",
+  "storyFileFullPath": "/Users/matsumotoyoshio/Works/mcps/storybook-mcp/src/src/components/MyComponent.stories.jsx",
+  "title": "Components/MyComponent",
+}
+`;
+
+exports[`storybook-api should match snapshot for component variants: component-1-Components/Myothercomponent-variant-components-myothercomponent--simple 1`] = `
+{
+  "componentFullPath": "/Users/matsumotoyoshio/Works/mcps/storybook-mcp/src",
+  "componentPath": undefined,
+  "id": "components-myothercomponent--simple",
+  "importPath": "./src/components/MyOtherComponent.stories.jsx",
+  "kind": "Example/Button",
+  "name": "Simple",
+  "parameters": {
+    "__id": "components-myothercomponent--simple",
+    "docsOnly": false,
+    "fileName": "./src/components/MyOtherComponent.stories.jsx",
+  },
+  "story": "Simple",
+  "storyFileFullPath": "/Users/matsumotoyoshio/Works/mcps/storybook-mcp/src/src/components/MyOtherComponent.stories.jsx",
   "title": "Components/MyOtherComponent",
 }
 `;

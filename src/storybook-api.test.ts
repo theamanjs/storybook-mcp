@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import { mockComponents } from './mock-storybook-data.js';
 import { getComponents } from './storybook-api.js';
+import path from 'path';
 
 const mockStoryPath = './src/__mocks__/stories.json';
 
@@ -9,7 +9,7 @@ describe('storybook-api', () => {
     const components = await getComponents(mockStoryPath);
 
     // Verify components are the mock components
-    expect(components).toEqual(mockComponents);
+    expect(components).toMatchSnapshot();
   });
 
   it('should return components with expected structure', async () => {
@@ -23,10 +23,11 @@ describe('storybook-api', () => {
 
     // Check the structure of the first component
     const component = components[0];
+    expect(component).toHaveProperty('id');
     expect(component).toHaveProperty('name');
     expect(component).toHaveProperty('description');
     expect(component).toHaveProperty('props');
-    expect(component).toHaveProperty('stories');
+    expect(component).toHaveProperty('variants');
 
     // Check props array structure
     expect(Array.isArray(component.props)).toBe(true);
@@ -37,13 +38,62 @@ describe('storybook-api', () => {
       expect(prop).toHaveProperty('defaultValue');
     }
 
-    // Check stories object structure
+    // Check variants object structure
     expect(typeof component.variants).toBe('object');
-    if (Object.keys(component.variants).length > 0) {
-      const storyKey = Object.keys(component.variants)[0];
-      const story = component.variants[storyKey];
-      expect(story).toHaveProperty('name');
-      expect(story).toHaveProperty('parameters');
+  });
+
+  it('should properly populate component variants', async () => {
+    const components = await getComponents(mockStoryPath);
+
+    // Ensure we have components to test
+    expect(components.length).toBeGreaterThan(0);
+
+    // Get the first component
+    const component = components[0];
+
+    // Check that variants is an object with at least one entry
+    expect(Object.keys(component.variants).length).toBeGreaterThan(0);
+
+    // Get the first variant
+    const variantKey = Object.keys(component.variants)[0];
+    const variant = component.variants[variantKey];
+
+    // Check the structure of the variant
+    expect(variant).toHaveProperty('id');
+    expect(variant).toHaveProperty('title');
+    expect(variant).toHaveProperty('name');
+    expect(variant).toHaveProperty('parameters');
+    expect(variant).toHaveProperty('importPath');
+    expect(variant).toHaveProperty('storyFileFullPath');
+    expect(variant).toHaveProperty('componentFullPath');
+
+    // Check that the variant has the correct relationship to the component
+    expect(variant.title).toBe('Components/MyComponent');
+
+    // Check that the component ID is part of the variant ID
+    expect(variant.id).toContain(component.id.replace('/', '-'));
+  });
+
+  it('should correctly resolve file paths for variants', async () => {
+    const components = await getComponents(mockStoryPath);
+
+    // For each component, check that the file paths in variants are correctly resolved
+    for (const component of components) {
+      for (const variantKey in component.variants) {
+        const variant = component.variants[variantKey];
+
+        if (variant.importPath) {
+          // Check that storyFileFullPath exists and is an absolute path
+          expect(variant.storyFileFullPath).toBeTruthy();
+          expect(path.isAbsolute(variant.storyFileFullPath || '')).toBe(true);
+        }
+
+        if (variant.componentPath) {
+          // Check that componentFullPath exists and is an absolute path
+          expect(variant.componentFullPath).toBeTruthy();
+          expect(path.isAbsolute(variant.componentFullPath || '')).toBe(true);
+        }
+      }
     }
   });
 
@@ -65,6 +115,18 @@ describe('storybook-api', () => {
       // Test snapshots for component stories
       for (const [storyKey, story] of Object.entries(component.variants)) {
         expect(story).toMatchSnapshot(`component-${index}-${component.name}-story-${storyKey}`);
+      }
+    });
+  });
+
+  it('should match snapshot for component variants', async () => {
+    const components = await getComponents(mockStoryPath);
+
+    // Test snapshots for each component's variants
+    components.forEach((component, index) => {
+      // Test snapshots for component variants
+      for (const [variantKey, variant] of Object.entries(component.variants)) {
+        expect(variant).toMatchSnapshot(`component-${index}-${component.name}-variant-${variantKey}`);
       }
     });
   });

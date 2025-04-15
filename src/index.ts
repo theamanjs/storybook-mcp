@@ -9,7 +9,7 @@ import {
 } from '@modelcontextprotocol/sdk/types.js';
 import { z } from 'zod';
 import { zodToJsonSchema } from "zod-to-json-schema";
-import { findComponentByName } from './tools/find-component-by-name.js';
+import { findComponentsByName } from './tools/find-components-by-name.js';
 import { getComponentDetails } from './tools/get-component-details.js';
 import { listComponents } from './tools/list-components.js';
 import { getStorybookJsonPath } from './utils.js';
@@ -38,7 +38,7 @@ const ListComponentsParamsSchema = z.object({
   path: z.string().optional().describe('Path to the stories.json file (optional if default path is provided)'),
 });
 
-const FindComponentByNameParamsSchema = z.object({
+const findComponentsByNameParamsSchema = z.object({
   name: z.string().describe('Component name or keyword to search for'),
   path: z.string().optional().describe('Path to the stories.json file (optional if default path is provided)'),
 });
@@ -56,9 +56,9 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
       inputSchema: zodToJsonSchema(ListComponentsParamsSchema.describe('Parameters for listing components')) as ToolInput,
     },
     {
-      name: 'find-component-by-name',
+      name: 'find-components-by-name',
       description: 'Search components by name/keyword',
-      inputSchema: zodToJsonSchema(FindComponentByNameParamsSchema.describe('Parameters for finding component by name')) as ToolInput,
+      inputSchema: zodToJsonSchema(findComponentsByNameParamsSchema.describe('Parameters for finding component by name')) as ToolInput,
     },
     {
       name: 'get-component-details',
@@ -81,8 +81,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     switch (request.params.name) {
       case 'list-components':
         return listComponents(storybookStaticDir);
-      case 'find-component-by-name':
-        return findComponentByName({ name: args.name || '', storybookStaticDir });
+      case 'find-components-by-name':
+        return findComponentsByName({ name: args.name || '', storybookStaticDir });
       case 'get-component-details':
         return getComponentDetails({ name: args.name || '', storybookStaticDir });
       default:

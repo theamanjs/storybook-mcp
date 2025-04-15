@@ -1,8 +1,7 @@
-import { describe, it, expect, beforeEach, spyOn } from 'bun:test';
+import { describe, it, expect, spyOn } from 'bun:test';
 import { listComponents } from './list-components.js';
 import * as storybookApi from '../storybook-api.js';
 import type { Component } from '../storybook-api.js';
-import * as configModule from '../config.js';
 import { McpError } from '@modelcontextprotocol/sdk/types.js';
 
 describe('list-components', () => {
@@ -12,20 +11,12 @@ describe('list-components', () => {
     { id: 'Component-2', name: 'Component 2', props: [], variants: {} }
   ];
 
-  beforeEach(() => {
-    // Mock getConfig to return our test config
-    spyOn(configModule, 'getConfig').mockReturnValue(mockConfig);
-  });
 
   it('should return a list of components when successful', async () => {
     // Mock getComponents to return our test components
     spyOn(storybookApi, 'getComponents').mockResolvedValue(mockComponents);
 
     const result = await listComponents('./storybook-static');
-
-    // Check correct config was used
-    expect(configModule.getConfig).toHaveBeenCalled();
-    expect(storybookApi.getComponents).toHaveBeenCalledWith(mockConfig.storybookStaticDir);
 
     // Check result structure
     expect(result).toEqual({
