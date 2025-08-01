@@ -51,20 +51,24 @@ npm run build
 
 ### 4. Set up
 
+Add the server to your MCP client configuration:
+
 ```json
 {
   "mcpServers": {
     "storybook-mcp": {
       "command": "node",
       "args": [
-        "/< your path>/index.js",
+        "/path/to/storybook-mcp/build/index.js",
         // Optional: path to your Storybook static json file
-        "/< your path>/index.json"
+        "/path/to/your/storybook-static/stories.json"
       ]
     }
   }
 }
 ```
+
+**Note**: Replace `/path/to/` with your actual file paths. The second argument (Storybook static file path) is optional if you provide it when calling the tools.
 
 The server will load your Storybook data and expose MCP tools to external agents.
 
@@ -132,26 +136,50 @@ The `get-component-details` tool provides comprehensive component analysis in a 
 
 ---
 
-<!-- ## 💡 Example Use Cases
+## 💡 Example Use Cases
 
-### 🔍 Find a matching component for a Figma element
+### 🔍 Get comprehensive component information
 
 Ask the AI:
-> "What Storybook component matches this 'CTA Button' in my Figma design?"
+
+> "I need detailed information about the Button component including all its props and usage examples"
 
 ➡️ MCP server runs:
-- `find-component-by-name("cta button")`
-- `get-component-details("PrimaryButton")`
-- `get-component-usage-examples("PrimaryButton")`
 
-### ✨ Auto-generate UI code from a Figma section
+- `get-component-details("Button")`
+
+Returns structured JSON with:
+
+- Component overview and description
+- All props with types, defaults, and descriptions
+- Available variants with JSX examples
+- File locations and import paths
+- Usage examples ready to copy
+- Complexity and health metrics
+
+### 🔧 Find and analyze similar components
 
 Ask the AI:
-> "Generate a contact form using our design system"
 
-➡️ MCP server:
-- Suggests `TextField`, `Textarea`, `PrimaryButton`
-- Provides JSX using those components
+> "Show me all button-like components and their details"
+
+➡️ MCP server runs:
+
+- `find-components-by-name("button")`
+- `get-component-details("Button")` for each match
+
+### ✨ AI-assisted development workflow
+
+Ask the AI:
+
+> "Help me implement a form with validation using our design system"
+
+➡️ AI uses MCP to:
+
+- Find relevant form components (`TextField`, `Button`, etc.)
+- Get detailed prop information and examples
+- Generate code using the actual component APIs
+- Suggest best practices based on component metrics
 
 ---
 
@@ -161,9 +189,11 @@ MCP (Model Context Protocol) provides a standard interface for large language mo
 
 By integrating your Storybook via MCP:
 
-- AI agents can suggest components intelligently
-- Designers and developers get a shared source of truth
-- Natural language is enough to drive UI generation
+- **AI agents get real-time component data** - No outdated documentation
+- **Structured JSON output** - Perfect for AI parsing and code generation
+- **Comprehensive component analysis** - Props, variants, examples, and metrics in one call
+- **Natural language queries** - Ask about components in plain English
+- **Enhanced development workflow** - AI can suggest optimal component usage
 
 ---
 
@@ -195,4 +225,4 @@ If you have ideas to improve or want to contribute new tools, feel free to open 
 
 ## 📜 License
 
-MIT -->
+MIT
